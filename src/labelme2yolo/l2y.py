@@ -4,6 +4,7 @@ Created on Aug 18, 2021
 @author: xiaosonh
 @author: GreatV(Wang Xin)
 """
+
 import base64
 import glob
 import io
@@ -260,9 +261,10 @@ class Labelme2YOLO:
         with open(json_name, encoding="utf-8") as file:
             json_data = json.load(file)
 
-        filename: str = uuid.UUID(int=random.Random().getrandbits(128)).hex
-        image_name = f"{filename}.png"
-        label_name = f"{filename}.txt"
+        # filename: str = uuid.UUID(int=random.Random().getrandbits(128)).hex
+        base_name = os.path.splitext(os.path.basename(json_name))[0]
+        image_name = f"{base_name}.png"
+        label_name = f"{base_name}.txt"
         img_path = save_yolo_image(
             json_data, self._json_dir, self._image_dir_path, target_dir, image_name
         )
@@ -275,8 +277,11 @@ class Labelme2YOLO:
         with open(json_path, encoding="utf-8") as file:
             json_data = json.load(file)
 
-        image_name = json_name.replace(".json", ".png")
-        label_name = json_name.replace(".json", ".txt")
+        base_name = os.path.splitext(json_name)[0]
+        image_name = f"{base_name}.png"
+        label_name = f"{base_name}.txt"
+        # image_name = json_name.replace(".json", ".png")
+        # label_name = json_name.replace(".json", ".txt")
         img_path = save_yolo_image(
             json_data, self._json_dir, self._image_dir_path, "", image_name
         )
